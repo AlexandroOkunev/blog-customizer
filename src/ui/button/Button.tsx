@@ -1,3 +1,4 @@
+import React from 'react';
 import { Text } from 'src/ui/text';
 
 import styles from './Button.module.scss';

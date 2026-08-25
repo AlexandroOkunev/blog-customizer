@@ -1,3 +1,4 @@
+import React from 'react';
 import arrow from 'src/images/arrow.svg';
 
 import styles from './ArrowButton.module.scss';
