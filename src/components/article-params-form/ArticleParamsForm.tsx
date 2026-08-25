@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect, FormEvent } from 'react';
+import React, { useState, useRef, useEffect, FormEvent } from 'react';
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 import { Select } from 'src/ui/select';
@@ -12,25 +12,38 @@ import {
 	fontColors,
 	backgroundColors,
 	contentWidthArr,
-	defaultArticleState,
 	ArticleStateType,
 } from 'src/constants/articleProps';
-import { useArticleParams } from 'src/context/ArticleContext';
+
 import styles from './ArticleParamsForm.module.scss';
 import clsx from 'clsx';
 
-export const ArticleParamsForm = () => {
-	const { applyParams, resetParams } = useArticleParams();
+type ArticleParamsFormProps = {
+	params: ArticleStateType;
+	onApply: (params: ArticleStateType) => void;
+	onReset: () => void;
+};
 
-	const [draftParams, setDraftParams] =
-		useState<ArticleStateType>(defaultArticleState);
+export const ArticleParamsForm = ({
+	params,
+	onApply,
+	onReset,
+}: ArticleParamsFormProps) => {
+	const [draftParams, setDraftParams] = useState<ArticleStateType>(params);
 	const [isOpen, setIsOpen] = useState(false);
 	const asideRef = useRef<HTMLElement>(null);
 
 	useEffect(() => {
+		if (isOpen) {
+			setDraftParams(params);
+		}
+	}, [isOpen, params]);
+
+	useEffect(() => {
+		if (!isOpen) return;
+
 		const handleClickOutside = (event: MouseEvent) => {
 			if (
-				isOpen &&
 				asideRef.current &&
 				!asideRef.current.contains(event.target as Node)
 			) {
@@ -42,18 +55,15 @@ export const ArticleParamsForm = () => {
 		return () => document.removeEventListener('mousedown', handleClickOutside);
 	}, [isOpen]);
 
-	const handleToggle = () => {
-		setIsOpen((prev) => !prev);
-	};
+	const handleToggle = () => setIsOpen((prev) => !prev);
 
 	const handleApply = (event: FormEvent) => {
 		event.preventDefault();
-		applyParams(draftParams);
+		onApply(draftParams);
 	};
 
 	const handleReset = () => {
-		setDraftParams(defaultArticleState);
-		resetParams();
+		onReset();
 	};
 
 	const handleChange =

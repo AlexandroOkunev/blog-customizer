@@ -1,14 +1,25 @@
-﻿import React, { CSSProperties } from 'react';
+﻿import React, { CSSProperties, useState } from 'react';
 import clsx from 'clsx';
 
 import { Article } from '../article/Article';
 import { ArticleParamsForm } from '../article-params-form/ArticleParamsForm';
-import { ArticleProvider, useArticleParams } from 'src/context/ArticleContext';
+import {
+	ArticleStateType,
+	defaultArticleState,
+} from 'src/constants/articleProps';
 
 import styles from './app.module.scss';
 
-const AppContent = () => {
-	const { params } = useArticleParams();
+export const App = () => {
+	const [params, setParams] = useState<ArticleStateType>(defaultArticleState);
+
+	const handleApplyParams = (newParams: ArticleStateType) => {
+		setParams(newParams);
+	};
+
+	const handleResetParams = () => {
+		setParams(defaultArticleState);
+	};
 
 	return (
 		<main
@@ -22,16 +33,12 @@ const AppContent = () => {
 					'--bg-color': params.backgroundColor.value,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm />
+			<ArticleParamsForm
+				params={params}
+				onApply={handleApplyParams}
+				onReset={handleResetParams}
+			/>
 			<Article />
 		</main>
-	);
-};
-
-export const App = () => {
-	return (
-		<ArticleProvider>
-			<AppContent />
-		</ArticleProvider>
 	);
 };
