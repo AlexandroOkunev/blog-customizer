@@ -12,6 +12,7 @@ import {
 	fontColors,
 	backgroundColors,
 	contentWidthArr,
+	defaultArticleState,
 	ArticleStateType,
 } from 'src/constants/articleProps';
 
@@ -64,6 +65,7 @@ export const ArticleParamsForm = ({
 
 	const handleReset = () => {
 		onReset();
+		setDraftParams(defaultArticleState);
 	};
 
 	const handleChange =
@@ -84,8 +86,6 @@ export const ArticleParamsForm = ({
 					<Text as='h2' size={31} weight={800} uppercase>
 						Задайте параметры
 					</Text>
-
-					<Separator />
 
 					<Select
 						title='Шрифт'
@@ -109,6 +109,8 @@ export const ArticleParamsForm = ({
 						onChange={handleChange('fontColor')}
 					/>
 
+					<Separator />
+
 					<Select
 						title='Цвет фона'
 						selected={draftParams.backgroundColor}
@@ -122,8 +124,6 @@ export const ArticleParamsForm = ({
 						options={contentWidthArr}
 						onChange={handleChange('contentWidth')}
 					/>
-
-					<Separator />
 
 					<div className={styles.bottomContainer}>
 						<Button title='Сбросить' htmlType='reset' type='clear' />
