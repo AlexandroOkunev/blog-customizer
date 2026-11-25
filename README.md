@@ -45,8 +45,3 @@
 4.  Проверка кода:
 
         npm run test   # stylelint:fix → lint → format
-
-## 📚 Исходные материалы (Яндекс Практикум)
-
-- [Макет в Figma](https://www.figma.com/file/...)
-- [Чеклист](https://www.notion.so/praktikum/...)
